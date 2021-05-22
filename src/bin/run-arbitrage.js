@@ -102,15 +102,10 @@ async function getUniswapQuote() {
 }
 
 async function checkArb(block) {
-    console.log(`Block[ ${block.number} ]`);
-
     let kQuote = await getKyberQuote();
     let uQuote = await getUniswapQuote();
 
     if (kQuote !== null && uQuote !== null) {
-        console.log(`K : ${kQuote.buy} -> ${kQuote.sell}`);
-        console.log(`U : ${uQuote.buy} -> ${uQuote.sell}`);
-
         const gasPrice = await web3.eth.getGasPrice();
         const txCost = 200000 * parseInt(gasPrice);
         const currentEthPrice = (uQuote.buy + uQuote.sell) / 2;
@@ -124,22 +119,24 @@ async function checkArb(block) {
                 (kQuote.sell - uQuote.buy) -
             (txCost / 10 ** 18) * currentEthPrice;
         if (profit1 > 0) {
+            console.log(`Block [ ${block.number} ]`);
             console.log("Arb opportunity found!");
             console.log(`Buy ETH on Kyber at ${kQuote.buy} dai`);
             console.log(`Sell ETH on Uniswap at ${uQuote.sell} dai`);
             console.log(`Expected profit: ${profit1} dai`);
-            //Execute arb Kyber <=> Uniswap
+            console.log("-".repeat(40));
         } else if (profit2 > 0) {
+            console.log(`Block [ ${block.number} ]`);
             console.log("Arb opportunity found!");
             console.log(`Buy ETH from Uniswap at ${uQuote.buy} dai`);
             console.log(`Sell ETH from Kyber at ${kQuote.sell} dai`);
             console.log(`Expected profit: ${profit2} dai`);
-            //Execute arb Uniswap <=> Kyber
+            console.log("-".repeat(40));
         }
     } else {
         console.log("ERROR: checkArb");
+        console.log("-".repeat(40));
     }
-    console.log("-".repeat(40));
 }
 
 let DAI_TOKEN = null;
