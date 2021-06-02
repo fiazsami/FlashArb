@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "arb": "node src/bin/run-arbitrage.js",
+    "uniswapV2": "node src/bin/uniswapV2.js",
+    "sushiswap": "node src/bin/sushiswap.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sushiswap/sdk": "^5.0.0-canary.12",
     "@uniswap/sdk": "^2.0.5",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",

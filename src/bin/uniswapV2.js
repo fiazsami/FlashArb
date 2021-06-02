@@ -28,21 +28,13 @@ async function quantityFor(amount) {
     };
 }
 
-async function getKyberQuote() {
+async function getKyberQuote(srcToken, destToken) {
     const quote = await Promise.all([
         kyber.methods
-            .getExpectedRate(
-                addresses.tokens.dai,
-                addresses.tokens.eth,
-                QUANTITY.daiWei
-            )
+            .getExpectedRate(srcToken, destToken, QUANTITY.daiWei)
             .call(),
         kyber.methods
-            .getExpectedRate(
-                addresses.tokens.eth,
-                addresses.tokens.dai,
-                QUANTITY.ethWei
-            )
+            .getExpectedRate(destToken, srcToken, QUANTITY.ethWei)
             .call(),
     ]);
 
@@ -101,7 +93,10 @@ async function getUniswapQuote() {
 }
 
 async function checkArb(block) {
-    let kQuote = await getKyberQuote();
+    let kQuote = await getKyberQuote(
+        addresses.tokens.dai,
+        addresses.tokens.eth
+    );
     let uQuote = await getUniswapQuote();
 
     if (kQuote !== null && uQuote !== null) {
