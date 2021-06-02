@@ -17,7 +17,6 @@ const kyber = new web3.eth.Contract(
 const CoinGecko = require("../data/CoinGecko");
 
 const AMOUNT_ETH = 10;
-const ETH_CONTRACT = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
 async function quantityFor(amount) {
     let response = await CoinGecko.getPrice("ethereum");
@@ -34,13 +33,13 @@ async function getKyberQuote() {
         kyber.methods
             .getExpectedRate(
                 addresses.tokens.dai,
-                ETH_CONTRACT,
+                addresses.tokens.eth,
                 QUANTITY.daiWei
             )
             .call(),
         kyber.methods
             .getExpectedRate(
-                ETH_CONTRACT,
+                addresses.tokens.eth,
                 addresses.tokens.dai,
                 QUANTITY.ethWei
             )
